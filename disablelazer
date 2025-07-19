@@ -1,13 +1,11 @@
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
--- Create ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "LaserCleanerGUI"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = player:WaitForChild("PlayerGui")
 
--- Create main frame
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0, 180, 0, 50)
 frame.Position = UDim2.new(0, 10, 0, 10)
@@ -17,7 +15,6 @@ frame.Active = true
 frame.Draggable = true
 frame.Parent = screenGui
 
--- Create toggle button
 local toggleBtn = Instance.new("TextButton")
 toggleBtn.Size = UDim2.new(0, 160, 0, 30)
 toggleBtn.Position = UDim2.new(0, 10, 0, 10)
