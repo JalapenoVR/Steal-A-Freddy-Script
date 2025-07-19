@@ -1,0 +1,58 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "LaserCleanerGUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Create main frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 180, 0, 50)
+frame.Position = UDim2.new(0, 10, 0, 10)
+frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+frame.Parent = screenGui
+
+-- Create toggle button
+local toggleBtn = Instance.new("TextButton")
+toggleBtn.Size = UDim2.new(0, 160, 0, 30)
+toggleBtn.Position = UDim2.new(0, 10, 0, 10)
+toggleBtn.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+toggleBtn.TextColor3 = Color3.new(1, 1, 1)
+toggleBtn.Text = "Laser Cleaner: OFF"
+toggleBtn.Parent = frame
+
+local enabled = false
+local plotsFolder = workspace:WaitForChild("Plots")
+
+local runLoop
+
+toggleBtn.MouseButton1Click:Connect(function()
+    enabled = not enabled
+    toggleBtn.Text = "Laser Cleaner: " .. (enabled and "ON" or "OFF")
+
+    if enabled then
+        runLoop = coroutine.create(function()
+            while enabled do
+                for i = 1, 8 do
+                    local plot = plotsFolder:FindFirstChild(tostring(i))
+                    if plot then
+                        local floor = plot:FindFirstChild("Floor1")
+                        if floor then
+                            local lazers = floor:FindFirstChild("Lazers")
+                            if lazers then
+                                lazers:Destroy()
+                            end
+                        end
+                    end
+                end
+                wait(3)
+            end
+        end)
+        coroutine.resume(runLoop)
+    end
+end)
